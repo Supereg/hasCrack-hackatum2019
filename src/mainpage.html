@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>hackatum</title>
+        <link rel = "stylesheet" href = "public/stylesheets/style.css">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <header>
+            <div id ="headbanner">
+                <h1 id = "appname">AllianzOnCrack</h1>
+            </div>
+        </header>
+        <main>
+            <div id = "uploadbox">
+                <div id ="dropzone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+                   <div class = "icon"> 
+                       <img id ="uploadimage" src = "public/imageshtml/uploadicon made by me.png" alt ="uploadicon"> 
+                    </div>
+                    <div id = "output">
+                        <strong>Please upload a potential picture with crack</strong>
+                    </div>
+                </div>       
+                <div><button id ="choosepic" type = "button" style = "width: 150px; height: 50px" ><strong>Choose file</strong></button><button id ="upload" type = "button" style = "width: 150px; height: 50px" ><strong>Upload picture</strong></button></div>
+            </div>
+        </main>
+        <script>
+            function dropHandler(ev) {
+                ev.preventDefault();
+                var dateien = ev.target.files;
+
+                if (ev.dataTransfer.items) {
+                    if (ev.dataTransfer.items[0].kind === 'file') {
+                        var file = ev.dataTransfer.items[0].getAsFile();
+                        document.getElementById('output').innerHTML= '<strong>' + file.name + '</strong>';
+                        document.getElementById('uploadimage').innerHTML.src = file.name;
+                    }
+                } else {
+                    document.getElementById('output').innerHTML= '<strong>' + ev.dataTransfer.files[0].name + '</strong>';
+                    document.getElementById('uploadimage').innerHTML.src = ev.dataTransfer.files[0].name;
+                }
+            }
+
+          
+
+            function dragOverHandler(ev) {
+                ev.preventDefault();
+            }
+
+
+        </script>
+    </body>
+</html>
