@@ -35,6 +35,9 @@ export class ViewRoute implements Route {
            } else {
                response.render('view', {
                    title: id,
+                   source: "images/" + data!.inputFilename,
+                   output: "images/" + data!.outputFilename,
+                   result: data!.results,
                });
            }
         });

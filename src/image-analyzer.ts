@@ -18,7 +18,6 @@ export enum AnalyzerErrorCodes {
     ERROR_STARTING = 1,
     ERROR_STOPPING = 2,
     NON_ZERO_EXIT = 3,
-
 }
 
 export type CompletionHandler = (error: AnalyzerErrorCodes, result?: AnalyzerResult) => void;
@@ -38,25 +37,28 @@ export class ImageAnalyzer {
     private readonly id: string;
     private readonly storage: OutputDataStorage;
 
-    private readonly imagePath: string;
-    private readonly webImagePath: string;
+    private readonly inputFilename: string;
+    private readonly outputFilename: string;
+
+    //private readonly outputPath: string;
+    //private readonly webOutputPath: string;
 
     constructor(id: string, filename: string) {
         this.id = id;
         this.storage = OutputDataStorage.initStore(id, filename); // create storage object
 
-        this.webImagePath = "images/" + this.storage.inputFilename;
-        this.imagePath = "./public/" + this.webImagePath;
+        this.inputFilename = this.storage.inputFilename;
+        this.outputFilename = "output-" + id + ".png";
     }
 
     run(callback: CompletionHandler) {
         callback = once(callback); // ensure callback gets only called once
 
-        const commands = "exec.py -file " + this.imagePath + "";
-        const script = spawn("python", commands.split(" "), {env: process.env});
+        const commands = "analyzer/hull.py ./public/images/" + this.inputFilename + " ./public/images/" + this.outputFilename;
+        const script = spawn("python3", commands.split(" "), {env: process.env});
 
         let receivedData = false;
-        const bufferList: Buffer[] = [];
+        let output = "";
 
         script.on("error", error => {
             if (!receivedData) {
@@ -72,7 +74,7 @@ export class ImageAnalyzer {
                 receivedData = true;
             }
 
-            bufferList.push(data);
+            output += String(data);
         });
         script.stderr.on("data", data => {
             debug("Python process reports the following error: " + String(data));
@@ -83,18 +85,13 @@ export class ImageAnalyzer {
                 debug("Python process exited with code %d", code);
                 callback(AnalyzerErrorCodes.NON_ZERO_EXIT);
             } else {
-                const buf = Buffer.concat(bufferList);
-
-                const outputFilename = "images/TODO.jpg";
-                const outputText = buf.toString();
-
                 const analyzerResult: AnalyzerResult = {
-                    inputFilename: this.webImagePath,
-                    outputFilename: outputFilename,
-                    outputText: outputText,
+                    inputFilename: this.inputFilename,
+                    outputFilename: this.outputFilename,
+                    outputText: output,
                 };
 
-                this.storage.update(outputFilename, outputText);
+                this.storage.update(this.outputFilename, output);
                 this.storage.store();
 
                 callback(AnalyzerErrorCodes.SUCCESS, analyzerResult);
