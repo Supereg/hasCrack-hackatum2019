@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import {UploadRoute} from "./routes/upload";
 import {ViewRoute} from "./routes/view";
+import {NextFunction, Response} from "express-serve-static-core";
 
 const app = express();
 
@@ -23,6 +24,9 @@ const viewRoute = new ViewRoute();
 uploadRoute.configure(app);
 viewRoute.configure(app);
 
+app.get("/", (request: Request, response: Response, next: NextFunction) => {
+  response.redirect("/upload");
+});
 app.use('/upload', uploadRoute.middleware());
 app.use('/view', viewRoute.middleware());
 
