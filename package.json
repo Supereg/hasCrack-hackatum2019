@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rimraf dist/ && tsc && npm run copy",
-    "copy": "cp -r src/bin dist/ && cp -r src/public dist/ && cp -r src/views dist/ && cp -r src/output dist/",
+    "copy": "cp -r src/bin dist/ && cp -r src/public dist/ && cp -r src/views dist/ && cp -r src/output dist/ && cp -r src/analyzer dist/",
     "start": "cd dist && node bin/www && cd ..",
     "debug": "cd dist && DEBUG=hackatum2019-ui:* node bin/www && cd ..",
     "test": "jest",

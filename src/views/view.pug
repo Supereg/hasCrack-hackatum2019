@@ -2,3 +2,12 @@ extends layout
 
 block content
   h1 View results #{title}
+  br
+  if source
+    img(src = "" + source height="50%" width="50%")
+  if output
+    img(src = "" + output height="50%" width="50%")
+    br
+  if result
+    #div(align= "center")
+      textarea(readonly style="height: 250px; width: 700px; resize: none;") #{result}

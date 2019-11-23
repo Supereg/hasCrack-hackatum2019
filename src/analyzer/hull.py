@@ -25,7 +25,7 @@ def PolyInPoly(fst, snd):
     return True
 
 def myCrop(photo):
-    path = 'data/' + photo
+    path = photo
     src = cv2.imread(path, 1)
     
     avg = np.mean(np.array(src)) / 255.0
