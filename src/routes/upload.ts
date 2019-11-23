@@ -54,7 +54,6 @@ export class UploadRoute implements Route {
 
         const imageAnalyzer = new ImageAnalyzer(id, fileData.filename);
         imageAnalyzer.run((error, result) => {
-            error = 0; // TODO remove
             if (error) {
                 debug("Returned with error %s", AnalyzerErrorCodes[error]);
                 response.render("upload-error", { // TODO unite that with upload page
