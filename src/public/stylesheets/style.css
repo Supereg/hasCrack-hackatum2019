@@ -1,8 +1,65 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+header{
+  border-bottom: 2px solid lightgray;
 }
 
 a {
   color: #00B7FF;
+}
+
+#headbanner{
+  height:100px;
+  background-color:white;
+  margin: 10px;
+  text-align: left;
+}
+
+#appname {
+  color:#006192;
+  display:inline-block;
+  font-size: 32px;
+}
+
+
+
+
+
+#uploadbox {
+  height: 600px;
+  background-color: white;
+  margin-top: 50px;
+  margin: 50px;
+  border: 1.5px solid lightgray;
+  padding: 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+#dropzone{
+  margin: 50px;
+  border: 3px solid gray;
+}
+
+.icon{
+  margin : 50px;
+}
+
+
+#output{
+  margin:50px;
+  color:#006192;
+}
+
+
+
+#choosepic,#upload{
+  background-color:#006192;
+  color: white;
+  margin: 5px;
+  border: none;
+  display: inline-block;
+  font-size: 16px;
 }
