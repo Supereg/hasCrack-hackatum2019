@@ -21,13 +21,16 @@
                         <strong>Please upload a potential picture with crack</strong>
                     </div>
                 </div>       
-                <div><button id ="choosepic" type = "button" style = "width: 150px; height: 50px" ><strong>Choose file</strong></button><button id ="upload" type = "button" style = "width: 150px; height: 50px" ><strong>Upload picture</strong></button></div>
+                <div>
+                    <input type="file" id="file" style="display:none;" />
+                    <button id ="choosepic" type = "button" style = "width: 150px; height: 50px" onclick="addFile();" ><strong>Choose file</strong></button>
+                    <button id ="upload" type = "button" style = "width: 150px; height: 50px" ><strong>Upload picture</strong></button>
+                </div>
             </div>
         </main>
         <script>
             function dropHandler(ev) {
                 ev.preventDefault();
-                var dateien = ev.target.files;
 
                 if (ev.dataTransfer.items) {
                     if (ev.dataTransfer.items[0].kind === 'file') {
@@ -41,7 +44,17 @@
                 }
             }
 
-          
+            function addFile() {
+                document.getElementById("file").click();
+            };
+
+            document.getElementById("file").addEventListener("change", function(){
+                if(document.getElementById("file").value){
+                    document.getElementById('output').innerHTML= '<strong>' + document.getElementById("file").value + '</strong>';
+                } else {
+                    document.getElementById('output').innerHTML='<strong>Please upload a potential picture with crack</strong>';
+                }
+            });
 
             function dragOverHandler(ev) {
                 ev.preventDefault();
