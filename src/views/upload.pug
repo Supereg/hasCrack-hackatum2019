@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    #upload
+        form(method="post" enctype="multipart/form-data")
+            input(
+                name="crack-image"
+                type="file"
+                accept="image/*"
+            )
+            button Upload
+
