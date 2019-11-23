@@ -10,14 +10,14 @@ a {
   color: #00B7FF;
 }
 
-#headbanner{
+.headbanner{
   height:100px;
   background-color:white;
   margin: 10px;
   text-align: left;
 }
 
-#appname {
+.appname {
   color:#006192;
   display:inline-block;
   font-size: 32px;
