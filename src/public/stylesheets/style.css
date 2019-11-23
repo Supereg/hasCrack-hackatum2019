@@ -27,7 +27,7 @@ a {
 
 
 
-#uploadbox {
+#uploadbox,#outputbox {
   height: 600px;
   background-color: white;
   margin-top: 50px;
@@ -67,3 +67,30 @@ a {
 #choosepic:hover,#upload:hover{
   background-color:#00a9ff;
 }
+
+#imageBox{
+  margin:20px;
+  height: 400px;
+}
+
+#inout1{
+  float: left;
+}
+
+#inout2{
+  float: right;
+}
+
+#inout1,#inout2{
+  width: 650px;
+  padding: 10px;
+  text-align: center;
+  color: #006192; 
+}
+
+#inout1 img,#inout2 img{
+  display:block;
+}
+
+
+
