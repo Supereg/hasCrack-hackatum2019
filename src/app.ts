@@ -3,11 +3,8 @@ import express, {Request} from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import multer from "multer";
 import {UploadRoute} from "./routes/upload";
-import {type} from "os";
-
-const indexRouter = require('./routes');
+import {ViewRoute} from "./routes/view";
 
 const app = express();
 
@@ -22,10 +19,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const uploadRoute = new UploadRoute();
+const viewRoute = new ViewRoute();
 uploadRoute.configure(app);
+viewRoute.configure(app);
 
-app.use('/', indexRouter);
 app.use('/upload', uploadRoute.middleware());
+app.use('/view', viewRoute.middleware());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,12 +1,13 @@
 extends layout
 
 block content
+    h1= title
     #upload
         form(method="post" enctype="multipart/form-data")
             input(
                 name="crack-image"
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png"
             )
             button Upload
 
