@@ -14,6 +14,7 @@ const debug = createDebug('hackatum2019-ui:server');
  */
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+app.set('env', "development"); // TODO remove
 
 /**
  * Create HTTP server.
