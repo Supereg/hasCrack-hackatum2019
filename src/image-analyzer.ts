@@ -3,6 +3,7 @@ import path from 'path';
 import createDebug from 'debug';
 import {spawn} from 'child_process'
 import {OutputDataStorage} from "./storage";
+import {once} from "./utils/once";
 
 const debug = createDebug("hackatum2019-ui:ImageAnalyzer");
 
@@ -31,9 +32,7 @@ export class ImageAnalyzer {
     }
 
     static idFrom(filename: string): string {
-        const id = path.parse(filename).name;
-        console.log("Returning id " + id); // TODO remove
-        return id;
+        return path.parse(filename).name;
     }
 
     private readonly id: string;
@@ -50,7 +49,9 @@ export class ImageAnalyzer {
         this.imagePath = "./public/" + this.webImagePath;
     }
 
-    run(callback: CompletionHandler) { // TODO once the callback
+    run(callback: CompletionHandler) {
+        callback = once(callback); // ensure callback gets only called once
+
         const commands = "exec.py -file " + this.imagePath + "";
         const script = spawn("python", commands.split(" "), {env: process.env});
 
