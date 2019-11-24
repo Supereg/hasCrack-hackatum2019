@@ -7,12 +7,6 @@ import {once} from "./utils/once";
 
 const debug = createDebug("hackatum2019-ui:ImageAnalyzer");
 
-export type AnalyzerResult = {
-    inputFilename: string,
-    outputFilename: string,
-    outputText: string,
-}
-
 export enum AnalyzerErrorCodes {
     SUCCESS = 0,
     ERROR_STARTING = 1,
@@ -20,7 +14,7 @@ export enum AnalyzerErrorCodes {
     NON_ZERO_EXIT = 3,
 }
 
-export type CompletionHandler = (error: AnalyzerErrorCodes, result?: AnalyzerResult) => void;
+export type CompletionHandler = (error: AnalyzerErrorCodes) => void;
 
 export class ImageAnalyzer {
 
@@ -85,16 +79,17 @@ export class ImageAnalyzer {
                 debug("Python process exited with code %d", code);
                 callback(AnalyzerErrorCodes.NON_ZERO_EXIT);
             } else {
-                const analyzerResult: AnalyzerResult = {
-                    inputFilename: this.inputFilename,
-                    outputFilename: this.outputFilename,
-                    outputText: output,
-                };
+                const outputData: Record<string, string> = {};
+                const lines = output.split("\n");
+                lines.forEach(line => {
+                   const [key, value] = line.split(": ");
+                   outputData[key] = value;
+                });
 
-                this.storage.update(this.outputFilename, output);
+                this.storage.update(this.outputFilename, outputData);
                 this.storage.store();
 
-                callback(AnalyzerErrorCodes.SUCCESS, analyzerResult);
+                callback(AnalyzerErrorCodes.SUCCESS);
             }
         });
     }

@@ -9,7 +9,7 @@ type FileStructure = {
     version: number,
     inputFilename: string,
     outputFilename: string,
-    results: string,
+    results: Record<string, string>;
 }
 
 export class OutputDataStorage {
@@ -56,17 +56,17 @@ export class OutputDataStorage {
 
     readonly inputFilename: string;
     outputFilename?: string;
-    results?: string;
+    results: Record<string, string>;
 
     private constructor(id: string, content: Partial<FileStructure>) {
         this.id = id;
 
         this.inputFilename = content.inputFilename!;
         this.outputFilename = content.outputFilename;
-        this.results = content.results;
+        this.results = content.results || {};
     }
 
-    update(outputFilename: string, results: string) {
+    update(outputFilename: string, results: Record<string, string>) {
         this.outputFilename = outputFilename;
         this.results = results;
     }

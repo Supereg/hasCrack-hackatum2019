@@ -3,12 +3,12 @@ import {Route} from "./Route";
 import multer, {Instance, StorageEngine} from "multer";
 import createDebug from 'debug';
 import {AnalyzerErrorCodes, ImageAnalyzer} from "../image-analyzer";
-import {OutputDataStorage} from "../storage";
 
 const debug = createDebug("hackatum2019-ui:routes:upload");
 
 export class UploadRoute implements Route {
 
+    private static readonly VIEW = "upload";
     private readonly router: Router;
 
     private readonly imageStore: StorageEngine;
@@ -33,8 +33,8 @@ export class UploadRoute implements Route {
     }
 
     handleRoot(request: Request, response: Response, next: NextFunction) {
-        response.render('upload', {
-            title: "Upload a file",
+        response.render(UploadRoute.VIEW, {
+            title: "Upload a file",// TODO title?
         });
     }
 
@@ -42,8 +42,8 @@ export class UploadRoute implements Route {
         const fileData: Express.Multer.File = request.file;
 
         if (!fileData) { // the user didn't select a file
-            response.render("upload-error", { // TODO unite that with upload page
-                error: "Please upload a file",
+            response.render(UploadRoute.VIEW, {
+                error: "Please select a file to upload.",
             });
             return;
         }
@@ -53,15 +53,13 @@ export class UploadRoute implements Route {
         const id = ImageAnalyzer.idFrom(fileData.filename);
 
         const imageAnalyzer = new ImageAnalyzer(id, fileData.filename);
-        imageAnalyzer.run((error, result) => {
+        imageAnalyzer.run((error) => {
             if (error) {
                 debug("Returned with error %s", AnalyzerErrorCodes[error]);
-                response.render("upload-error", { // TODO unite that with upload page
-                    error: AnalyzerErrorCodes[error], // TODO friendly names
+                response.render(UploadRoute.VIEW, {
+                    error: "Unexpected error running python backend: " + AnalyzerErrorCodes[error] + ".",
                 })
             } else {
-                debug("Returned with data: %o", result);
-
                 const viewPage = "view?id=" + id;
                 debug("Redirecting to image location '%s'", viewPage);
                 response.redirect(viewPage);

@@ -9,6 +9,8 @@ const debug = createDebug("hackatum2019-ui:routes:view");
 
 export class ViewRoute implements Route {
 
+    private static readonly VIEW = "view";
+
     private readonly router: Router;
 
     constructor() {
@@ -24,20 +26,30 @@ export class ViewRoute implements Route {
     handleRoot(request: Request, response: Response, next: NextFunction) {
         const id = request.query.id;
         if (!id) {
-            return next(new Error("Please supply id")); // TODO error page
+            response.render(ViewRoute.VIEW, {
+                error: "Please supply a result id"
+            });
+            return;
         }
 
         OutputDataStorage.load(id, (error, data) => {
            if (error) {
-               response.render('view', {
-                   title: "Error: " + error.message, // TODO do not print that
+               response.render(ViewRoute.VIEW, {
+                   error: "Could not open output for given id. Are you sure this id exists?",
                });
            } else {
-               response.render('view', {
-                   title: id,
+               const rating = data!.results["rating"];
+               const lossArea = data!.results["loss-area"];
+
+               const ratingPercentage = rating? parseFloat(rating): -1;
+               const lossAreaPercentage = lossArea? parseFloat(lossArea): -1;
+
+               response.render(ViewRoute.VIEW, {
+                   //title: id,
                    source: "images/" + data!.inputFilename,
                    output: "images/" + data!.outputFilename,
-                   result: data!.results,
+                   crackSeverity: ratingPercentage.toPrecision(2) + "%",
+                   lostArea: lossAreaPercentage.toPrecision(2) + "%",
                });
            }
         });
