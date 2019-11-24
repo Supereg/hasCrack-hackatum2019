@@ -40,3 +40,6 @@ npm run start
 
 The http server will run on port `8080` by default. This can be changed by setting the `PORT` envoirment
 variable. Additionally the `DEBUG` variable can be set to enable debug output.
+
+![](screenshots/upload-view.png)
+![](screenshots/result-view.png)
