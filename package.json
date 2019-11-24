@@ -1,6 +1,6 @@
 {
-  "name": "hackatum2019-ui",
-  "version": "0.0.0",
+  "name": "has-crack-hackatum2019",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "rimraf dist/ && tsc && npm run copy",
