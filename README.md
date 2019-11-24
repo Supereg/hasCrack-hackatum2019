@@ -2,7 +2,7 @@
 
 ¿hasCrack? is a project created at HackaTUM 2019 to solve the challenged pitched by the Allianz Deutschland AG.
 
-##Requirements
+## Requirements
 
 The project needs the following components installed
 * `node` and `npm`
@@ -11,7 +11,7 @@ The project needs the following components installed
     * `shapely`
     * `numpy`
 
-##Installation
+## Installation
 
 In order to setup the project you will first of all install all necessary npm modules,
 which are required to run the web interface.
@@ -21,7 +21,7 @@ npm install
 
 Install all the necessary python modules using `pip3 install <module>`.
 
-##Run
+## Run
 
 To run the python script on it's own, navigate into the `src/analyzer` directory and run
 the python script by supplying the following parameters.
