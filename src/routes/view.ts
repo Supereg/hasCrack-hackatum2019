@@ -41,15 +41,22 @@ export class ViewRoute implements Route {
                const rating = data!.results["rating"];
                const lossArea = data!.results["loss-area"];
 
-               const ratingPercentage = rating? parseFloat(rating): -1;
-               const lossAreaPercentage = lossArea? parseFloat(lossArea): -1;
+               let ratingPercentage = rating? parseFloat(rating): -1;
+               let lossAreaPercentage = lossArea? parseFloat(lossArea): -1;
+
+               if (ratingPercentage >= 0) {
+                   ratingPercentage = Math.round(ratingPercentage * 100) / 100;
+               }
+               if (lossAreaPercentage >= 0) {
+                   lossAreaPercentage = Math.round(lossAreaPercentage * 100) / 100;
+               }
 
                response.render(ViewRoute.VIEW, {
                    //title: id,
                    source: "images/" + data!.inputFilename,
                    output: "images/" + data!.outputFilename,
-                   crackSeverity: ratingPercentage.toPrecision(2) + "%",
-                   lostArea: lossAreaPercentage.toPrecision(2) + "%",
+                   crackSeverity: ratingPercentage + "%",
+                   lostArea: lossAreaPercentage + "%",
                });
            }
         });
